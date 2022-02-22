@@ -12,23 +12,10 @@ public class Main {
 	// write your code here
         String url = "jdbc:mysql://127.0.0.1:8889/katesDB";
         String username = "tufeiyuan";
-        String password = "saint123";
-        Connection connection = null;
+        String password = "kaloTC9527";
+
         try {
-            connection = DriverManager.getConnection(url,username,password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        Statement stmt = null;
-        try {
-            stmt = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        String sql = "CREATE TABLE customer (first_name VarCHAR(30) NOT NULL, id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY)";
-        try {
-            stmt.execute(sql);
-            System.out.println("table success");
+            SQLHelper.createTablePartnership();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -42,14 +29,14 @@ public class Main {
                 UNIQUE INDEX `num_UNIQUE` (`num` ASC))
         ENGINE = InnoDB
 
-        CREATE TABLE IF NOT EXISTS `mydb`.`partnership` (
+        CREATE TABLE IF NOT EXISTS `katesDB`.`partnership` (
   `num` INT NOT NULL AUTO_INCREMENT,
   `numOfPuppie` INT NULL,
   `numOfHomoSapient` INT NULL,
   PRIMARY KEY (`num`),
-  UNIQUE INDEX `num_UNIQUE` (`num` ASC) VISIBLE,
-  INDEX `numOfPuppie_idx` (`numOfPuppie` ASC) VISIBLE,
-  INDEX `numOfHomoSapient_idx` (`numOfHomoSapient` ASC) VISIBLE,
+  UNIQUE INDEX `num_UNIQUE` (`num` ASC) ,
+  INDEX `numOfPuppie_idx` (`numOfPuppie` ASC) ,
+  INDEX `numOfHomoSapient_idx` (`numOfHomoSapient` ASC) ,
   CONSTRAINT `numOfPuppie`
     FOREIGN KEY (`numOfPuppie`)
     REFERENCES `mydb`.`puppies` (`num`)
