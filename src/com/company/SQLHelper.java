@@ -74,7 +74,23 @@ public class SQLHelper {
         stmt.execute(command);
         System.out.println("Table created successfully");
     }
-    public static void addNewPuppies (String puppieName, String puppieGender, String Vaccination){
+    public static void addNewPuppies (String puppieName, int puppieGender, int Vaccination) throws SQLException {
+        connection = DriverManager.getConnection(baseURL, username, password);
+        Statement stmt = connection.createStatement();
+        String command = "INSERT INTO puppies (puppie name, puppie age, puppie vaccinated) VALUES('"+puppieName+"','"+puppieGender+"','"+Vaccination+"');'";
+        //后边的标点很怪
+        stmt.execute(command);
+        System.out.println("puppie added");
+        //try this
+    }
+    public static void addNewHomoSapient (String pplName, String pplAddress) throws SQLException {
+        connection = DriverManager.getConnection(baseURL, username, password);
+        Statement stmt = connection.createStatement();
+        String command = "INSERT INTO homoSapient (name, address) VALUES('"+pplName+"','"+pplAddress+"');'";
+        stmt.execute(command);
+        System.out.println("human added");
+    }
+    public static void addNewPartner (String pplName, String pplAddress) throws SQLException {
 
     }
     // add new puppies
