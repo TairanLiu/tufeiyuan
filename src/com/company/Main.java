@@ -13,9 +13,33 @@ public class Main {
         String url = "jdbc:mysql://127.0.0.1:8889/katesDB";
         String username = "tufeiyuan";
         String password = "kaloTC9527";
-
+        try {
+            SQLHelper.createTablePuppies();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            SQLHelper.createTableHomoSapients();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         try {
             SQLHelper.createTablePartnership();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            SQLHelper.addNewHomoSapient("Tairan", "none");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            SQLHelper.addNewPuppies("Tufeiyuan",1,1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            SQLHelper.addNewPartner(0,0);
         } catch (SQLException e) {
             e.printStackTrace();
         }

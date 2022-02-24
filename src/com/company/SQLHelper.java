@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class SQLHelper {
     private static String baseURL = "jdbc:mysql://127.0.0.1:8889/";
-    private static String schemaName = "classDemo";
+    private static String schemaName = "katesDB";
     private static String fullURL = baseURL+schemaName;
     private static String username = "tufeiyuan";
     private static String password = "kaloTC9527";
@@ -75,25 +75,31 @@ public class SQLHelper {
         System.out.println("Table created successfully");
     }
     public static void addNewPuppies (String puppieName, int puppieGender, int Vaccination) throws SQLException {
-        connection = DriverManager.getConnection(baseURL, username, password);
+        connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
-        String command = "INSERT INTO puppies (puppie name, puppie age, puppie vaccinated) VALUES('"+puppieName+"','"+puppieGender+"','"+Vaccination+"');'";
+        String command = "INSERT INTO puppies (puppie name, puppie age, puppie vaccinated) VALUES('"+puppieName+"','"+puppieGender+"','"+Vaccination+"');";
         //后边的标点很怪
         stmt.execute(command);
         System.out.println("puppie added");
         //try this
     }
     public static void addNewHomoSapient (String pplName, String pplAddress) throws SQLException {
-        connection = DriverManager.getConnection(baseURL, username, password);
+        connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
-        String command = "INSERT INTO homoSapient (name, address) VALUES('"+pplName+"','"+pplAddress+"');'";
+        String command = "INSERT INTO homoSapient (name, address) VALUES('"+pplName+"','"+pplAddress+"');";
         stmt.execute(command);
         System.out.println("human added");
     }
-    public static void addNewPartner (String pplName, String pplAddress) throws SQLException {
-
+    public static void addNewPartner (int humanID, int puppieID) throws SQLException {
+        connection = DriverManager.getConnection(fullURL, username, password);
+        Statement stmt = connection.createStatement();
+        String command = "INSERT INTO partnership (numOfPuppie, numOfHomoSapient) " +
+                "Values (SELECT num from puppies, SELECT num from homoSapient)";
+        stmt.execute(command);
+        System.out.println("Puppie adopted");
     }
+    
     // add new puppies
-    // modify
+    // modify will autogenerate delete?
     // delete
 }
