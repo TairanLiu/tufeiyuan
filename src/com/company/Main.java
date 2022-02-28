@@ -29,12 +29,12 @@ public class Main {
             e.printStackTrace();
         }
         try {
-            SQLHelper.addNewHomoSapient("Tairan", "none");
+            SQLHelper.addNewHomoSapient("Tairan", "US");
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            SQLHelper.addNewPuppies("Tufeiyuan",1,1);
+            SQLHelper.addNewPuppies("Tufeiyuan",3,1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
