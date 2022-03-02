@@ -101,7 +101,19 @@ public class SQLHelper {
                 "Values ('"+puppieID+"', '"+humanID+"');";
         //INSERT INTO `mydb`.`partnership` (`num`, `numOfPuppie`, `numOfHomoSapient`) VALUES (NULL, NULL, NULL);
         stmt.execute(command);
+        deleteHomoSapient(humanID);
+        puppieAdopted(puppieID);
         System.out.println("Puppie adopted");
+    }
+    public static void deleteHomoSapient(int humanID) throws SQLException {
+        connection = DriverManager.getConnection(fullURL, username, password);
+        Statement stmt = connection.createStatement();
+        String command = "DELETE from homoSapient WHERE num = "+humanID+"" ;
+        stmt.execute(command);
+        System.out.println("get rid of human");
+    }
+    public static void puppieAdopted(int puppieID){
+
     }
     
     // add new puppies
