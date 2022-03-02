@@ -22,7 +22,7 @@ public class SQLHelper {
                 "  `num` INT NOT NULL AUTO_INCREMENT,\n" +
                 "  `puppie name` VARCHAR(45) NOT NULL,\n" +
                 "  `puppie age` INT NOT NULL,\n" +
-                "  `puppie vaccinated` INT NULL,\n" +
+                "  `puppie vaccinated` INT NOT NULL,\n" +
                 "  PRIMARY KEY (`num`),\n" +
                 "  UNIQUE INDEX `num_UNIQUE` (`num` ASC))\n" +
                 "ENGINE = InnoDB";
@@ -74,11 +74,13 @@ public class SQLHelper {
         stmt.execute(command);
         System.out.println("Table created successfully");
     }
+
     public static void addNewPuppies (String puppieName, int puppieAge, int Vaccination) throws SQLException {
-        connection = DriverManager.getConnection(fullURL, username, password);
+        connection = DriverManager.getConnection(fullURL, username,password);
         Statement stmt = connection.createStatement();
-        String command = "INSERT INTO puppies (puppie name, puppie age, puppie vaccinated) VALUES('"+puppieName+"','"+puppieAge+"','"+Vaccination+"');";
-        //String command = "INSERT INTO puppies" + "VALUES('"+puppieName+"','"+puppieAge+"','"+Vaccination+"');";
+        String command = "INSERT INTO puppies (`puppie name`, `puppie age`, `puppie vaccinated`) VALUES('"+puppieName+"',"+puppieAge+","+Vaccination+");";
+        //INSERT INTO `mydb`.`puppies` (`num`, `puppie_name`, `puppie_age`, `puppie_vaccinated`) VALUES (NULL, NULL, NULL, NULL);
+        //String command = "INSERT INTO puppies VALUES('"+puppieName+"',"+puppieAge+","+Vaccination+");";
         //后边的标点很怪
         stmt.execute(command);
         System.out.println("puppie added");
@@ -94,8 +96,10 @@ public class SQLHelper {
     public static void addNewPartner (int humanID, int puppieID) throws SQLException {
         connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
-        String command = "INSERT INTO partnership (numOfPuppie, numOfHomoSapient) " +
-                "Values ('SELECT num FROM puppies', 'SELECT num FROM homoSapient');";
+        //String command = "INSERT INTO `partnership` (numOfPuppie, numOfHomoSapient) " +"Values ('SELECT num FROM puppies WHERE num = "+puppieID+"', 'SELECT * FROM homoSapient WhERE num = "+humanID+"');";
+        String command = "INSERT INTO `partnership` (numOfPuppie, numOfHomoSapient) " +
+                "Values ('"+puppieID+"', '"+humanID+"');";
+        //INSERT INTO `mydb`.`partnership` (`num`, `numOfPuppie`, `numOfHomoSapient`) VALUES (NULL, NULL, NULL);
         stmt.execute(command);
         System.out.println("Puppie adopted");
     }

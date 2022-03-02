@@ -28,7 +28,7 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
+        /*try {
             SQLHelper.addNewHomoSapient("Tairan", "US");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,9 +37,9 @@ public class Main {
             SQLHelper.addNewPuppies("Tufeiyuan",3,1);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
         try {
-            SQLHelper.addNewPartner(0,0);
+            SQLHelper.addNewPartner(1,1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
