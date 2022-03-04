@@ -124,7 +124,7 @@ public class SQLHelper {
         connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
         String command = "UPDATE puppies" +
-                "SET puppie vaccinated = 1" +
+                "SET `puppie vaccinated`=1" +
                 "WHERE num = "+puppieID+";";
         stmt.execute(command);
         System.out.println("happie healthie puppie");

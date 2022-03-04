@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 	// write your code here
         String url = "jdbc:mysql://127.0.0.1:8889/katesDB";
         String username = "tufeiyuan";
@@ -32,13 +32,14 @@ public class Main {
             SQLHelper.addNewHomoSapient("Tairan", "US");
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        try {
-            SQLHelper.addNewPuppies("Tufeiyuan",3,1);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }*/
         try {
+            SQLHelper.addNewPuppies("Tufeiyuan",3,0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        SQLHelper.puppieVaccinated(1);
+        /*try {
             SQLHelper.addNewPartner(1,1);
         } catch (SQLException e) {
             e.printStackTrace();
