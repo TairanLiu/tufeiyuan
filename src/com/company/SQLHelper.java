@@ -103,8 +103,9 @@ public class SQLHelper {
         stmt.execute(command);
         deleteHomoSapient(humanID);
         puppieAdopted(puppieID);
-        System.out.println("Puppie adopted");
+        System.out.println("New family");
     }
+    ////////////
     public static void deleteHomoSapient(int humanID) throws SQLException {
         connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
@@ -112,10 +113,31 @@ public class SQLHelper {
         stmt.execute(command);
         System.out.println("get rid of human");
     }
-    public static void puppieAdopted(int puppieID){
-
+    public static void puppieAdopted(int puppieID) throws SQLException{
+        connection = DriverManager.getConnection(fullURL, username, password);
+        Statement stmt = connection.createStatement();
+        String command = "DELETE from puppie WHERE num = "+puppieID+"";
+        stmt.execute(command);
+        System.out.println("Puppie adopted");
     }
-    
+    public static void puppieVaccinated(int puppieID) throws SQLException {
+        connection = DriverManager.getConnection(fullURL, username, password);
+        Statement stmt = connection.createStatement();
+        String command = "UPDATE puppies" +
+                "SET puppie vaccinated = 1" +
+                "WHERE num = "+puppieID+";";
+        stmt.execute(command);
+        System.out.println("happie healthie puppie");
+    }
+    public static void moved(int humanID, String newAddress) throws SQLException{
+        connection = DriverManager.getConnection(fullURL, username, password);
+        Statement stmt = connection.createStatement();
+        String command = "UPDATE homoSapient" +
+                "SET address = "+newAddress+"" +
+                "WHERE num = "+humanID+";";
+        stmt.execute(command);
+        System.out.println("congratulations?");
+    }
     // add new puppies
     // modify will autogenerate delete?
     // delete
