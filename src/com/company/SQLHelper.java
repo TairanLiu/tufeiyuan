@@ -20,9 +20,10 @@ public class SQLHelper {
         stmt = connection.createStatement();
         String command = "CREATE TABLE IF NOT EXISTS `katesDB`.`puppies` (\n" +
                 "  `num` INT NOT NULL AUTO_INCREMENT,\n" +
-                "  `puppie name` VARCHAR(45) NOT NULL,\n" +
-                "  `puppie age` INT NOT NULL,\n" +
-                "  `puppie vaccinated` INT NOT NULL,\n" +
+                "  `puppie_name` VARCHAR(45) NOT NULL,\n" +
+                "  `puppie_age` INT NOT NULL,\n" +
+                "  `puppie_vaccinated` INT NULL,\n" +
+                "  `puppie adopted already` INT NOT NULL DEFAULT 0,\n" +
                 "  PRIMARY KEY (`num`),\n" +
                 "  UNIQUE INDEX `num_UNIQUE` (`num` ASC))\n" +
                 "ENGINE = InnoDB";
@@ -39,6 +40,7 @@ public class SQLHelper {
                 "  `num` INT NOT NULL AUTO_INCREMENT,\n" +
                 "  `name` VARCHAR(45) NOT NULL,\n" +
                 "  `address` VARCHAR(45) NOT NULL,\n" +
+                "  `human found home` INT NOT NULL DEFAULT 0,\n" +
                 "  PRIMARY KEY (`num`),\n" +
                 "  UNIQUE INDEX `num_UNIQUE` (`num` ASC) ,\n" +
                 "  UNIQUE INDEX `address_UNIQUE` (`address` ASC))\n" +
@@ -78,7 +80,8 @@ public class SQLHelper {
     public static void addNewPuppies (String puppieName, int puppieAge, int Vaccination) throws SQLException {
         connection = DriverManager.getConnection(fullURL, username,password);
         Statement stmt = connection.createStatement();
-        String command = "INSERT INTO puppies (`puppie name`, `puppie age`, `puppie vaccinated`) VALUES('"+puppieName+"',"+puppieAge+","+Vaccination+");";
+        String command = "INSERT INTO puppies (`puppie name`, `puppie age`, `puppie vaccinated`,`puppie adopted already`) " +
+                "VALUES('"+puppieName+"',"+puppieAge+","+Vaccination+",0);";
         //INSERT INTO `mydb`.`puppies` (`num`, `puppie_name`, `puppie_age`, `puppie_vaccinated`) VALUES (NULL, NULL, NULL, NULL);
         //String command = "INSERT INTO puppies VALUES('"+puppieName+"',"+puppieAge+","+Vaccination+");";
         //后边的标点很怪
@@ -89,37 +92,43 @@ public class SQLHelper {
     public static void addNewHomoSapient (String pplName, String pplAddress) throws SQLException {
         connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
-        String command = "INSERT INTO homoSapient (name, address) VALUES('"+pplName+"','"+pplAddress+"');";
+        String command = "INSERT INTO homoSapient (`name`, `address`, `human found home`) VALUES('"+pplName+"','"+pplAddress+"',0);";
         stmt. execute(command);
         System.out.println("human added");
     }
     public static void addNewPartner (int humanID, int puppieID) throws SQLException {
         connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
-        //String command = "INSERT INTO `partnership` (numOfPuppie, numOfHomoSapient) " +"Values ('SELECT num FROM puppies WHERE num = "+puppieID+"', 'SELECT * FROM homoSapient WhERE num = "+humanID+"');";
+        //System.out.println("Begin adding new partnership");
         String command = "INSERT INTO `partnership` (numOfPuppie, numOfHomoSapient) " +
-                "Values ('"+puppieID+"', '"+humanID+"');";
+                "Values ("+puppieID+", "+humanID+");";
+        //System.out.println(command);
+        //String command = "INSERT INTO `partnership` (numOfPuppie, numOfHomoSapient) " +"Values ('SELECT num FROM puppies WHERE num = "+puppieID+"', 'SELECT * FROM homoSapient WhERE num = "+humanID+"');";
+
         //INSERT INTO `mydb`.`partnership` (`num`, `numOfPuppie`, `numOfHomoSapient`) VALUES (NULL, NULL, NULL);
         stmt.execute(command);
-        deleteHomoSapient(humanID);
-        puppieAdopted(puppieID);
+        //System.out.println("Added partnership");
+        humanFoundPuppie(humanID);
+        puppieSavedHuman(puppieID);
+
         System.out.println("New family");
     }
-    ////////////
-    public static void deleteHomoSapient(int humanID) throws SQLException {
+
+    public static void deadPerson (int humanID) throws SQLException {
         connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
         String command = "DELETE from homoSapient WHERE num = "+humanID+"" ;
         stmt.execute(command);
         System.out.println("get rid of human");
     }
-    public static void puppieAdopted(int puppieID) throws SQLException{
+    public static void puppieToHeaven (int puppieID) throws SQLException{
         connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
-        String command = "DELETE from puppie WHERE num = "+puppieID+"";
+        String command = "DELETE from puppies WHERE num = "+puppieID+"";
         stmt.execute(command);
         System.out.println("Puppie adopted");
     }
+    ////////////////
     public static void puppieVaccinated(int puppieID) throws SQLException {
         connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
@@ -129,16 +138,23 @@ public class SQLHelper {
         stmt.execute(command);
         System.out.println("happie healthie puppie");
     }
-    public static void moved(int humanID, String newAddress) throws SQLException{
+    public static void humanFoundPuppie (int humanID) throws SQLException{
         connection = DriverManager.getConnection(fullURL, username, password);
         Statement stmt = connection.createStatement();
-        String command = "UPDATE homoSapient" +
-                "SET address = "+newAddress+"" +
-                "WHERE num = "+humanID+";";
+        String command = "UPDATE homoSapient \n" +
+                "SET `human found home` = 1\n" +
+                "where num = "+humanID+";";
         stmt.execute(command);
-        System.out.println("congratulations?");
+        System.out.println("human saved");
     }
-    // add new puppies
-    // modify will autogenerate delete?
-    // delete
+    public static void puppieSavedHuman (int puppieID) throws SQLException{
+        connection = DriverManager.getConnection(fullURL, username, password);
+        Statement stmt = connection.createStatement();
+        String command = "UPDATE puppies \n" +
+                "SET `puppie adopted already` = 1\n" +
+                "where num = "+puppieID+";";
+        stmt.execute(command);
+        System.out.println("puppie saved human");
+    }
+
 }
